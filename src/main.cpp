@@ -1,4 +1,5 @@
 #include <main.h>
+#include <ismtools.h>
 
 std::string version = "0.0.1";
 
@@ -46,9 +47,9 @@ int main(int argc, char **argv) {
     
     //bool isPipe = false; // to check if input is from pipe
     
-    if (argc == 1) { // mytool with no arguments
+    if (argc == 1) { // ismtools with no arguments
             
-        printf("mytool [command]\n-h for additional help.\n");
+        printf("ismtools [command]\n-h for additional help.\n");
         exit(0);
         
     }
@@ -61,10 +62,10 @@ int main(int argc, char **argv) {
         {0, 0, 0, 0}
     };
     
-    const static std::unordered_map<std::string,int> tools{
-        {"something",1},
-        {"somethingelse",2}
-    };
+//    const static std::unordered_map<std::string,int> tools{
+//        {"something",1},
+//        {"somethingelse",2}
+//    };
     
     while (arguments) { // loop through argv
         
@@ -90,23 +91,6 @@ int main(int argc, char **argv) {
                 }
                 break;
             default: // handle positional arguments
-                                
-                switch (tools.count(optarg) ? tools.at(optarg) : 0) {
-                    case 1:
-                        cmd = "gfastats/build/bin/mytool" + getArgs(optarg, argc, argv);;
-                        
-                        arguments = false;
-                        
-                        break;
-                    case 2:
-                        cmd = "gfalign/build/bin/mytool2" + getArgs(optarg, argc, argv);;
-                        
-                        arguments = false;
-                        
-                        break;
-                        
-                }
-                
             case 0: // case for long options without short options
                 
 //                if (strcmp(long_options[option_index].name,"line-length") == 0)
@@ -115,12 +99,12 @@ int main(int argc, char **argv) {
                 break;
                 
             case 'v': // software version
-                printf("mytool v%s\n", version.c_str());
+                printf("ismtools v%s\n", version.c_str());
                 printf("Giulio Formenti giulio.formenti@gmail.com\n");
                 exit(0);
                 
             case 'h': // help
-                printf("mytool [command]\n");
+                printf("ismtools [command]\n");
                 printf("\nOptions:\n");
                 printf("-v --version software version.\n");
                 printf("--cmd print $0 to stdout.\n");
@@ -143,8 +127,17 @@ int main(int argc, char **argv) {
         
     }
     
-    std::cout<<"Invoking: "<<cmd<<std::endl;
-    std::system(cmd.c_str());
+//    std::string A = "CAGTCAGTAGTACGTACGaaTAGC";
+//    std::string B = "CAGTCAGtgTAGTACGTACGTAGC";
+    std::string A = "AAAAAAAATTAATAAAAAAAAACTAAAATAAAAAAATAAAAAAAAAATCAATAAAAAAAAATTAAAATAAAAAAATAA";
+    std::string B = "AAAAATTAATAAAAAAAACTAAAATAAAAAAAAAAAAAAAAAATAAAAAAATCAATAAAAAAAATTAAAATAAAAAAAAAAAAAAAAAATAA";
+    int8_t match_score = 1, mismatch_score = -1, gap_score = -1;
+    int dp[MAX_N][MAX_N];
+    
+    ismtools(match_score, mismatch_score, gap_score, A, B, dp);
+    
+//    std::cout<<"Invoking: "<<cmd<<std::endl;
+//    std::system(cmd.c_str());
     
     exit(EXIT_SUCCESS);
     
