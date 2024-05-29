@@ -1,2 +1,2 @@
 # ismtools
-A tool for in silico genome maps
+A toolsuite for in silico genome maps
